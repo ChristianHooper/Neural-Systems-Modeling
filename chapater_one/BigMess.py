@@ -1,7 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-
+'''
+Scripts simulates the pulse or step response of a neural network with ten input & ten output neurons randomly connected.
+'''
 
 def run():
     
@@ -21,7 +23,7 @@ def run():
     y = np.zeros((time, neuron_sum)) # Creates column for neural state, used in post-synaptic output/feed-back 
 
 
-    for t in range(0, time): # f(t)=w\cdot{y(t-1)+v\cdot{t-1}}
+    for t in range(0, time): # f(t)=w\cdot{y(t-1)+v\cdot{t-1}} (LaTeX)
         y[t, :] = w @ y[t-1, :] + v @ x[t-1, :] # Uses matrix multiplication to set discrete state of the neuron
         y[t] = np.clip(y[t], a_min=0, a_max=1000) # Caps feed-back
 
