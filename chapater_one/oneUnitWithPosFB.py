@@ -13,8 +13,8 @@ def run():
     v = 1 # Pre-synaptic axonal signal
 
     y = np.zeros((time)) # State of the neuron
-    w = 1.95 # Post-synaptic axonal weight
-    b = 10 # Bounds for neural sate when post-synaptic weight (w) is greater than 1
+    w = 0.95 # Post-synaptic axonal weight
+    b = 10 # Bounds for neural sate when post-synaptic weight (w) is greater than 1 (b = 1.05)
 
     for n in range(1, time): # Positive feedback of from neuronal response 
         y[n] = x[n-1] * v + y[n-1] * w # $f(t)=g(t-1)v+y(t-1)w$
@@ -25,7 +25,6 @@ def run():
     axs[0].plot(x, color='r') # Neural input plot overtime
     axs[0].set_title("Pre-synaptic Axonal Input")
 
-    #axs[1].set_ylim(0,12)
     axs[1].plot(y) # Neural state plot over time
     axs[1].set_title("Single Neuron Positive Feed-back")
     
