@@ -6,7 +6,7 @@ Scripts simulates the pulse or step response of a neural network with ten input 
 '''
 
 def run():
-    
+
     # Base neural parameters
     time = 101
     neuron_sum = 10
@@ -19,7 +19,7 @@ def run():
 
     # Neural responses
     x = np.zeros((time, neuron_sum)) # Creates column for pre-synaptic dendritic input, not transposed 
-    for t in pulse: x[t,:] = 1 
+    for t in pulse: x[t,:] = 1
     y = np.zeros((time, neuron_sum)) # Creates column for neural state, used in post-synaptic output/feed-back 
 
 
@@ -35,14 +35,14 @@ def run():
     axv = fig.add_subplot(222, projection='3d') # Output weights plot
     axx = fig.add_subplot(223, projection='3d') # Pre-synaptic plot
     axy = fig.add_subplot(224, projection='3d') # Post-synaptic plot
-    
+
     # For weights plot
     x_axis = np.linspace(1, neuron_sum, neuron_sum)
     y_axis = np.linspace(1, neuron_sum, neuron_sum)
 
     # For neural responses plot
     x_axis_large = np.linspace(1, neuron_sum, neuron_sum)
-    y_axis_large = np.linspace(1, time, time) 
+    y_axis_large = np.linspace(1, time, time)
 
     # Plot axises
     x_axis, y_axis = np.meshgrid(x_axis, y_axis)
@@ -66,7 +66,7 @@ def run():
     axx.plot_surface(x_axis_large, y_axis_large, x, cmap='viridis')
     axx.set_xlabel("Neuron")
     axx.set_ylabel("Time")
-    
+
     # Neuron State: Post-Synaptic Feed-Back
     axy.set_title("Neuron State: Post-Synaptic Feed-Back")
     axy.plot_surface(x_axis_large, y_axis_large, y, cmap='viridis')
@@ -74,7 +74,7 @@ def run():
     axy.set_ylabel("Time")
 
     plt.show()
-    
+
     #///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if __name__ == "__main__":
