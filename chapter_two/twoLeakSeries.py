@@ -1,6 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+'''
+Script implements a model having two units in series, each recurrent, excitatory self-connections,
+allowing units to stream positive feedback on themselves.
+'''
 
 def run():
 
