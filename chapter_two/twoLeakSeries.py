@@ -24,6 +24,11 @@ def run():
     plt.plot(np.arange(time), y[1]) # Second neuron
     plt.show()
 
+    # Eigen Values & Vectors
+    eigen_values, eigen_vectors = np.linalg.eig(w)
+    print("Values:\n", eigen_values)
+    print("\nVectors:\n", eigen_vectors)
+
 
 if __name__ == "__main__":
     run()
