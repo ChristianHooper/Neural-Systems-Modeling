@@ -14,6 +14,7 @@ def run():
     post_axon = np.array([[0, 0.2],[0, 0.95]]) # Output axon, post-synaptic (w)
     soma = np.zeros((2, time)) # Main soma state (y)
 
+
     # $y(t)=w\cdot{y(t-1)}+vx(t-1)$ (LaTeX)
     for t in range(1, time): soma[:,t] = post_axon @ soma[:,t-1] + pre_axon[:] * pre_soma[t-1]
 
