@@ -8,8 +8,9 @@ Script implements the two-unit model; of the integrator of the oculomotor system
 def run():
 
     time = 1000
+    bg = 10 # Background noise
 
-    x = np.zeros((2, time)); x[0,100]=1; x[1,100]=-1 # Pre-synaptic inputs
+    x = np.ones((2, time)) * bg; x[0,100]+=1; x[1,100]-=1 # Pre-synaptic inputs
     y = np.zeros((2, time)) # Neuron state
 
     v = np.array([[1, 0], [0, 1]]) # Pre-synaptic input weight
