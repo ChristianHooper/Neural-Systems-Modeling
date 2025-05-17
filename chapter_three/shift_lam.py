@@ -7,15 +7,17 @@ size = 50 # Number of input stimulus'
 light_size = 10 # Light is twice the size
 
 x = np.ones(size) # Declares 1-D light vector
-light_index = int(len(x)/2) # Position on vector for defining light
+light_index = int(size/2) # Position on vector for defining light
 x[light_index-light_size : light_index+light_size] = 2 # Defines 1-D light vector
+
+print("Light", x)
 
 v = np.zeros((size, size)) # Lateral inhibition weights
 
 # Sets up neural weights
 offsets = [-1, 0, 1]
 weights = [-1, 2, -1]
-for di in range(size): # Create diagonal wight structure
+for di in range(size): # Create diagonal weight structure
     for off, w in zip(offsets, weights):
         index = di + off
         if -1 <= index < size:

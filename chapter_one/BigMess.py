@@ -18,9 +18,9 @@ def run():
     pulse = [15] # Times for pre-synaptic input pulse
 
     # Neural responses
-    x = np.zeros((time, neuron_sum)) # Creates column for pre-synaptic dendritic input, not transposed 
+    x = np.zeros((time, neuron_sum)) # Creates column for pre-synaptic dendritic input, not transposed
     for t in pulse: x[t,:] = 1
-    y = np.zeros((time, neuron_sum)) # Creates column for neural state, used in post-synaptic output/feed-back 
+    y = np.zeros((time, neuron_sum)) # Creates column for neural state, used in post-synaptic output/feed-back
 
 
     for t in range(0, time): # f(t)=w\cdot{y(t-1)+v\cdot{t-1}} (LaTeX)
