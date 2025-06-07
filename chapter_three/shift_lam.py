@@ -10,8 +10,6 @@ x = np.ones(size) # Declares 1-D light vector
 light_index = int(size/2) # Position on vector for defining light
 x[light_index-light_size : light_index+light_size] = 2 # Defines 1-D light vector
 
-
-
 v = np.zeros((size, size)) # Lateral inhibition weights
 
 # Sets up neural weights
@@ -24,10 +22,7 @@ for di in range(size): # Create diagonal weight structure
             v[di, index] = w
         else: v[di, 0] = -1 # Loops last row value
 
-print('v:', v)
-print('\nx:', x)
 y = v @ x # Lateral inhibition to define edge contrast from light
-print('\ny:', y)
 
 fig = plt.figure(figsize=(8,3))
 
