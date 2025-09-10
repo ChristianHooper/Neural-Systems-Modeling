@@ -13,12 +13,12 @@ def pre_synaptic_matrix(pattern): return ( 2 * pattern.T - 1) @ pattern * (1 - n
 def Hopfield_matrix(pattern): return ( 2 * pattern.T - 1) @ (2 * pattern - 1) * (1 - np.eye(len(pattern.T))) # Covariance matrix
 
 y_ii = np.array(
-    [[1,1,1,1,0,0,0,0,0,0],
-    [0,0,0,0,0,0,1,1,1,1]]
+    [[1,0,1,0,1,0,1,0,1,0],
+    [1,0,0,1,1,1,1,0,0,1]]
     )
 y_i = np.array([y_ii[0]])
 
-initial_pattern = [0.5,0,0,0,0,0,0,0,0,0]
+initial_pattern = [0,0,0,0,1,0,1,0,1,0]
 
 ex = np.array([[1,1,0], [0,0,1]])
 
@@ -30,9 +30,9 @@ print(Hopfield_matrix(q))
 '''
 
 time_step: int = 10
-y = np.zeros((time_step, len(y_i[0]))) # Neuron state time series
+y = np.zeros((time_step, len(y_ii[0]))) # Neuron state time series
 y[0] = initial_pattern # Initial neural state
-w = Hopfield_matrix(y_i)
+w = Hopfield_matrix(y_ii)
 
 # Basic synchronous network equation: $q(t)=W{y(t-1)}$
 for t in range(1, time_step):
