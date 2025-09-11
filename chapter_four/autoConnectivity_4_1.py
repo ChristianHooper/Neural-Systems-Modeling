@@ -37,25 +37,26 @@ time_step: int = 10
 y = np.zeros((time_step, len(y_ii[0]))) # Neuron state time series
 y[0] = initial_pattern # Initial neural state
 w = Hopfield_matrix(y_ii)
-
+'''
 # Basic synchronous network equation: $q(t)=W\cdot{y(t-1)}$
 for t in range(1, time_step):
     y[t] = (w @ y[t-1] > 0).astype(int) # Remaps neural dot-product output to boolean array then converts to binary
-#print(f'Sync:\n {y}\n')
+#print(f'Sync:\n {y}\n')p
 y = np.zeros((time_step, len(y_ii[0]))) # Neuron state time series
 y[0] = initial_pattern # Initial neural state
-
+'''
 #print(w,'\n')
 # Basic asynchronous network equation: $q_i(t)=W_{row,i}\cdot{y(t-1)}$ TODO: Async implemented, but not falling into attract pattern
 for t in range(1, time_step):
-    q_i = np.zeros(len(y[t]))
-    async_order = rng.permutation(len(q_i))
+    y_copy = y[t-1].copy()
+    async_order = rng.permutation(len(y_copy))
+
     for i in async_order:
-        #print(f'{w[i]} @ {y[t-1]} = {w[i] @ y[t-1]}')
-        q_i[i] = w[i] @ y[t-1] # Remaps neural dot-product output to boolean array then converts to binary
-    y[t] = (q_i > 0).astype(int)
-    #print(y[t])
-print(f'A-sync:\n {y}')
+        q_i = w[i] @ y_copy # Remaps neural dot-product
+        y_copy[i] = y_copy[i] if q_i == 0 else (1 if q_i > 0 else 0)
+
+    y[t] = y_copy
+print(f'A-sync:\n {y}\n')
 
 # Rendering
 canvas = scene.SceneCanvas(keys='interactive', show=True, bgcolor='black')
