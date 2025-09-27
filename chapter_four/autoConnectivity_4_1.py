@@ -12,9 +12,7 @@ def post_synaptic_matrix(pattern): return pattern.T @ (2 * pattern - 1) * (1 - n
 
 def pre_synaptic_matrix(pattern): return ( 2 * pattern.T - 1) @ pattern * (1 - np.eye(len(pattern.T))) # //
 
-def Hopfield_matrix(pattern): 
-    #print(f'HOP{( 2 * pattern.T - 1)} @ {(2 * pattern - 1)}')
-    return ( 2 * pattern.T - 1) @ (2 * pattern - 1) * (1 - np.eye(len(pattern.T))) # Covariance matrix
+def Hopfield_matrix(pattern): return ( 2 * pattern.T - 1) @ (2 * pattern - 1) * (1 - np.eye(len(pattern.T))) # Covariance matrix
 
 #  /////////////////////////////////////////////////////
 #TODO: Async implemented, but not falling into attract pattern
@@ -22,11 +20,6 @@ def asymmetric_sequence(pattern, bias: int=2): #return np.array([[( 2 * pattern[
     asymmetrical = np.zeros((len(pattern[0]), len(pattern[0])))
     base_pattern = pattern
     pattern = 2 * pattern - 1
-    #print(asymmetrical)
-    #print(pattern)
-    #print(np.roll(pattern,1,axis=0),'\n\n')
-    #print(f'{np.roll(pattern,1,axis=0).T} @ {pattern}')
-    #print(f'MATRICES: {np.roll(pattern,1,axis=0).T @ pattern}')
     '''
     for n in range(-1, len(pattern)-1):
         #print(f'{n+1}@{n}')
@@ -38,31 +31,6 @@ def asymmetric_sequence(pattern, bias: int=2): #return np.array([[( 2 * pattern[
     return (asymmetrical * bias) * (1 - np.eye(len(pattern.T)))
 
 ex = np.array([[1,0,1,0],[1,1,0,0],[0,1,1,0]])
-
-#print(asymmetric_sequence(ex))
-#print(Hopfield_matrix(ex))
-#  /////////////////////////////////////////////////////
-
-
-def seq_weights(patterns, bias=0.2, loop=True):
-    # patterns: (P,N) in 0/1
-    X = 2*patterns - 1   # to ±1
-    N = X.shape[1]
-
-    # Symmetric Hopfield part
-    W_sym = (X.T @ X) / N
-    np.fill_diagonal(W_sym, 0.0)
-
-    # Asymmetric part: next <- current
-    if loop:
-        X_next = np.roll(X, -1, axis=0)   # shift forward
-    else:
-        X_next = np.vstack([X[1:], np.zeros_like(X[0])])
-    W_asym = (X_next.T @ X) / N
-    np.fill_diagonal(W_asym, 0.0)
-
-    return (1 - bias)*W_sym + bias*W_asym
-
 
 # /////////////////////////////////////////////////////
 
@@ -83,9 +51,6 @@ initial_pattern = rng.integers(0,2, size=(1,20), dtype=int)
 #print('initial_pattern: ', initial_pattern)
 async_order = np.random.choice(np.arange(0,len(initial_pattern), dtype=int), size=len(initial_pattern), replace=False)
 
-
-#ex = np.array([[1,1,0], [0,0,1]])
-
 '''
 print(hebb_matrix(q),'\n')
 print(post_synaptic_matrix(q),'\n')
@@ -93,19 +58,20 @@ print(pre_synaptic_matrix(q),'\n')
 print(Hopfield_matrix(q))
 '''
 
-time_step: int = 200
+time_step: int = 10
 y = np.zeros((time_step, len(y_iii[0]))) # Neuron state time series
 y[0] = initial_pattern # Initial neural state
 w = asymmetric_sequence(y_iii)
 #print(f'Weights:\n{w}')
-'''
-# Basic synchronous network equation: $q(t)=W\cdot{y(t-1)}$
-for t in range(1, time_step):
-    y[t] = (w @ y[t-1] > 0).astype(int) # Remaps neural dot-product output to boolean array then converts to binary
-#print(f'Sync:\n {y}\n')p
-y = np.zeros((time_step, len(y_ii[0]))) # Neuron state time series
-y[0] = initial_pattern # Initial neural state
-'''
+
+def synchronous(): # Basic synchronous network equation: $q(t)=W\cdot{y(t-1)}$
+    for t in range(1, time_step):
+        y[t] = (w @ y[t-1] > 0).astype(int) # Remaps neural dot-product output to boolean array then converts to binary
+    #print(f'Sync:\n {y}\n')p
+    y = np.zeros((time_step, len(y_ii[0]))) # Neuron state time series
+    y[0] = initial_pattern # Initial neural state
+
+
 #print(w,'\n')
 # Basic asynchronous network equation: $q_i(t)=W_{row,i}\cdot{y(t-1)}$
 for t in range(1, time_step):
@@ -119,28 +85,3 @@ for t in range(1, time_step):
     y[t] = y_copy
 print(f'A-sync:\n {y}\n')
 
-# Rendering
-canvas = scene.SceneCanvas(keys='interactive', show=True, bgcolor='black')
-view = canvas.central_widget.add_view()
-view.camera = scene.cameras.PanZoomCamera(rect=(0, 0, 2, 10))
-
-'''
-# Create scatter plot for markers
-scatter = scene.visuals.Markers()
-view.add(scatter)
-
-# Initial data
-pos = np.column_stack((x_vals, y_vals))
-scatter.set_data(pos, face_color='red', size=10)
-
-# Update function
-step = 0
-def update(ev):
-    scatter.set_data(pos, face_color='red', size=10)
-
-# Timer to animate
-timer = app.Timer(interval=0.05, connect=update, start=True)
-
-if __name__ == '__main__':
-    app.run()
-'''
