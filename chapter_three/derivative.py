@@ -30,6 +30,8 @@ def identity(order=0): # Create an identify matrix for matrix multiplication
 first_order = identity(1)
 second_order = identity(2)
 
+print("This: \n", second_order)
+
 first_derivative = first_order @ light # First order derivative calculation
 second_derivative = second_order @ light # First order derivative calculation
 
