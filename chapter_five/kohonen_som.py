@@ -16,10 +16,10 @@ cycles: int
 
         y[p_i] = v @ x[p_i] # Define dot-product: $y=Vx$
 
-        print(f'{y[p_i]} = {v} @ {x[p_i]}')
+        #print(f'{y[p_i]} = {v} @ {x[p_i]}')
 
         y_m = np.argmax(y[p_i]) # Finds max neighbourhood: $y_m=max_i(y_i)$
-        print(f'Product: {y[p_i]}\nMax Index: {y_m}')
+        #print(f'Product: {y[p_i]}\nMax Index: {y_m}')
 
         # Modify & normalize weights: $V_{rowh}(c+1)=\large\frac{V_{rowh}(c)+a x.T(c)}{||V_{rowh}(c+1)=V_{rowh}(c)+a x.T(c)||}$
         v[y_m] = (v[y_m] + a * x[y_m]) / (np.sum(np.power((v[y_m] + a * x[y_m]), 2)) ** 0.5)
