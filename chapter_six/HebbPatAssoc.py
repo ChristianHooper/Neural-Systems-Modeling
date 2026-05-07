@@ -35,6 +35,7 @@ if __name__ == "__main__":
     # Sets weights for network based upon hebbian rule; both neurons much be active at the same time
     for i in range(y_out_pnum):
         V[i] = torch.sum(x[i] * y[i])
+    V = torch.where(V != 0, 1.0, 0.0) # makes weight array binary
 
     print('Weights:\n', V)
     print('Outputs:\n', x @ V)
